@@ -22,8 +22,8 @@
             </div>
         </div>
     <div>
-
-        {% if items %}
+        
+        {% if page %}
         <table>
             <tr>
                 <th>Item Code</th>
@@ -35,11 +35,8 @@
                 <th>Employee Name</th>
                 <th>Actions</th>
             </tr>
-            {% for i in items %}
-            {% for item in i %}
+            {% for item in page %}
             <tr>
-                <!-- <p>{{item.id}}</p> -->
-
                 <td>{{item.Item_Code}}</td>
                 <td>{{item.Item_name}}</td>
                 <td>{{item.Item_Measurement}}</td>
@@ -60,7 +57,6 @@
                 </td>
             </tr>
             {% endfor %}
-            {% endfor %}
         </table>
         {% else %}
             <h2>There is no item</h2>
@@ -68,18 +64,18 @@
        
         <div class="pagination">
             <span class="step-links">   
-                {% if page_obj.has_previous %}
+                {% if page.has_previous %}
                     <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    <a href="?page={{ page.previous_page_number }}">previous</a>
                 {% endif %}
         
                 <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    Page {{ page.number }} of {{ page.paginator.num_pages }}.
                 </span>
         
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% if page.has_next %}
+                    <a href="?page={{ page.next_page_number }}">next</a>
+                    <a href="?page={{ page.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>

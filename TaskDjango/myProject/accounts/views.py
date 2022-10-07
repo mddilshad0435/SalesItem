@@ -32,26 +32,26 @@ class Signup(View):
     
 def Home(request):
     user = request.user
-    data=[]
     if user.is_authenticated:
-        employee = Employee.objects.filter(user=user)
+        employee = Employee.objects.get(user=user.id)
         print("employee",employee)
-        for i in employee:
-            item = Item.objects.filter(Requisition_By=i.id)
-            data.append(item)  
-        page = request.GET.get('page')
-        paginator = Paginator(data, 2)
-        
-        # page_obj = p.get_page(page_number)
+        item = Item.objects.filter(Requisition_By=employee.id)
 
-        try:
-            items = paginator.page(page)
-        except PageNotAnInteger:
-            items = paginator.page(1)
-        except EmptyPage:
-            items = paginator.page(paginator.num_pages)
-    
-        return render(request,'app/index.html',{'items':items,'employee':employee,'page': page})
+        page = request.GET.get('page')
+        print(item,"sdjfbsdjfbsdf")
+        paginator = Paginator(item, 2)
+        
+        page_obj = paginator.get_page(page)
+
+
+        # try:
+        #     items = paginator.page(page)
+        # except PageNotAnInteger:
+        #     items = paginator.page(1)
+        # except EmptyPage:
+        #     items = paginator.page(paginator.num_pages)
+        # print(items)
+        return render(request,'app/index.html',{'page': page_obj})
     return render(request,'app/index.html')
 
 class LoginView(View):
@@ -93,7 +93,7 @@ class AddItems(View):
         return render(request, 'app/additems.html',{'employee':employee})
 
 class EditItems(View):
-    def post(self,request):
+    def put(self,request,id):
         data={}
         print("wuidu3eh",request.POST)
         Item_Code = request.POST['Item_Code']
