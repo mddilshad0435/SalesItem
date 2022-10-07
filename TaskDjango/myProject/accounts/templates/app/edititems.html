@@ -9,25 +9,46 @@
                 <label class="col-lg-5 col-xl-3 control-label text-lg-right mb-0">Item Code</label>
                 <div class="col-lg-7 col-xl-6">
                     <input type="text" class="form-control form-control-modern" 
-                           name="Item_Code"  required/>
+                           name="Item_Code" value="{{item.Item_Code}}" required/>
                 </div>
             </div>
             <div class="form-group row align-items-center">
                 <label class="col-lg-5 col-xl-3 control-label text-lg-right mb-0">Item Name</label>
                 <div class="col-lg-7 col-xl-6">
                     <input type="text" class="form-control form-control-modern" name="Item_name"
-                           maxlength="150"  required/>
+                           maxlength="150" value="{{item.Item_name}}" required/>
                 </div>
             </div>
-    
+           
             <div class="form-group row align-items-center">
                 <label class="col-lg-5 col-xl-3 control-label text-lg-right mb-0">Item Measurement</label>
                     <div class="col-lg-7 col-xl-6">
                         <select data-plugin-selectTwo class="form-control form-control-modern populate" name="Item_Measurement">
-                            <option value="0">Nos</option>
-                            <option value="1">Meter</option>
-                            <option value="2">Kilo Gram</option>
-                            <option value="2">Kilo Meter</option>
+                            
+                            {% if item.Item_Measurement == "N" %}
+                                <option value="0" selected>Nos</option>
+                            {% else %}
+                                <option value="0">Nos</option>
+                            {% endif %}
+
+                            {% if item.Item_Measurement == "M" %}
+                                <option value="1" selected>Meter</option>
+                            {% else %}
+                                <option value="1">Meter</option>
+                            {% endif %}
+
+                            {% if item.Item_Measurement == "KG" %}
+                                <option value="2" selected>Kilo Gram</option>
+                            {% else %}
+                                <option value="2">Kilo Gram</option>
+                            {% endif %}
+
+                            {% if item.Item_Measurement == "KM" %}
+                                <option value="3" selected>Kilo Meter</option>
+                            {% else %}
+                                <option value="3">Kilo Meter</option>
+                            {% endif %}
+                            
                         </select>
                     </div>
             </div>
@@ -35,20 +56,20 @@
                 <label class="col-lg-5 col-xl-3 control-label text-lg-right mb-0">Item stock</label>
                 <div class="col-lg-7 col-xl-6">
                     <input type="text" class="form-control form-control-modern"
-                           name="Item_stock" maxlength="100"/>
+                           name="Item_stock" value="{{item.Item_stock}}" maxlength="100"/>
                 </div>
             </div>
             <div class="form-group row align-items-center">
                 <label class="col-lg-5 col-xl-3 control-label text-lg-right mb-0">Item Image</label>
                 <div class="col-lg-7 col-xl-6">
-                    <input type="file" id="file" name="Item_Image" accept="image/*" />
+                    <input type="file" id="file" src="{{item.Item_Image.url}}" name="Item_Image" accept="image/*" />
                 </div>
             </div>
             <div class="form-group row align-items-center">
                 <label class="col-lg-5 col-xl-3 control-label text-lg-right mb-0">Supplied Name</label>
                 <div class="col-lg-7 col-xl-6">
                     <input type="text" class="form-control form-control-modern"
-                           name="Supplier_name" maxlength="100"/>
+                           name="Supplier_name" value="{{item.Supplier_name}}" maxlength="100"/>
                 </div>
             </div>
             <div class="form-group row align-items-center">
@@ -57,13 +78,18 @@
                     <select data-plugin-selectTwo class="form-control form-control-modern populate" name="employee_name">
                         <option value="">----</option>
                         {% for i in employee %}
-                        <option value="{{i.id}}">{{i.name}}</option>
+                        {% if i == item.Requisition_By %}
+                            <option value="{{ i.id }}" selected>{{ i.name }}</option>
+                        {% else %}
+                            <option value="{{ i.id }}">{{ i.name }}</option>
+                        {% endif %}
+                        
                         {% endfor %}
                     </select>
                 </div>
             </div>
             <p class="text-danger m-0 d-none" id="pro-code-id-error-txt">{{err}}</p>
-            <input type="submit" style="float: center;" value="Submit" class="btn btn-primary">
+            <input type="submit" style="float: center;" value="Update" class="btn btn-primary">
         </form>
     </div>
 </div>

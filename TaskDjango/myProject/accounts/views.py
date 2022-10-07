@@ -91,3 +91,27 @@ class AddItems(View):
         employee = Employee.objects.filter(user=request.user)
         print("employee",employee)
         return render(request, 'app/additems.html',{'employee':employee})
+
+class EditItems(View):
+    def post(self,request):
+        data={}
+        print("wuidu3eh",request.POST)
+        Item_Code = request.POST['Item_Code']
+        Item_name = request.POST['Item_name']
+        Item_Measurement = request.POST['Item_Measurement']
+        Item_stock = request.POST['Item_stock']
+        Item_Image = request.FILES['Item_Image']
+        Supplier_name = request.POST['Supplier_name']
+        employeeName = request.POST['employee_name']
+        print("emmppp9========+++",employeeName)
+        employee = Employee.objects.filter(id=employeeName).first()
+        print("emmppp9+++",employee)
+        
+        employee = Item.objects.create(Item_Code=Item_Code,Item_name=Item_name,Item_Measurement=Item_Measurement,Item_stock=Item_stock,Item_Image=Item_Image,Supplier_name=Supplier_name,Requisition_By=employee)
+        return redirect('home')
+    def get(self, request,id):
+        print(id)
+        item = Item.objects.get(id=id)
+        print("item",item)
+        employee = Employee.objects.filter(user=request.user)
+        return render(request, 'app/edititems.html',{'item':item,'employee':employee})
