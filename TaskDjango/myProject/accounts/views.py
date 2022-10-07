@@ -33,25 +33,18 @@ class Signup(View):
 def Home(request):
     user = request.user
     if user.is_authenticated:
-        employee = Employee.objects.get(user=user.id)
-        print("employee",employee)
-        item = Item.objects.filter(Requisition_By=employee.id)
+        employee = Employee.objects.filter(user=user.id).first()
+        if employee:
+            print("employee",employee)
+            item = Item.objects.filter(Requisition_By=employee.id)
 
-        page = request.GET.get('page')
-        print(item,"sdjfbsdjfbsdf")
-        paginator = Paginator(item, 2)
-        
-        page_obj = paginator.get_page(page)
+            page = request.GET.get('page')
+            print(item,"sdjfbsdjfbsdf")
+            paginator = Paginator(item, 2)
+            
+            page_obj = paginator.get_page(page)
 
-
-        # try:
-        #     items = paginator.page(page)
-        # except PageNotAnInteger:
-        #     items = paginator.page(1)
-        # except EmptyPage:
-        #     items = paginator.page(paginator.num_pages)
-        # print(items)
-        return render(request,'app/index.html',{'page': page_obj})
+            return render(request,'app/index.html',{'page': page_obj})
     return render(request,'app/index.html')
 
 class LoginView(View):
